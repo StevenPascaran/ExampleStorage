@@ -2,12 +2,14 @@ package com.cosmas.asteroids.examplestorage;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,6 +47,24 @@ public class MainActivity extends AppCompatActivity {
         FileOutputStream fos = null;
         try {
             fos = openFileOutput("data2.txt", MODE_PRIVATE);
+            String name2 = eName.getText().toString();
+            fos.write(name2.getBytes());
+            Toast.makeText(this,"Data saved...",Toast.LENGTH_LONG).show();
+        } catch(FileNotFoundException e){
+            Toast.makeText(this,"error writing data...",Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            fos.close();
+        }
+    }
+
+    public void saveExternal(View v) throws IOException {
+        File folder = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(folder,"data3.txt");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
             String name2 = eName.getText().toString();
             fos.write(name2.getBytes());
             Toast.makeText(this,"Data saved...",Toast.LENGTH_LONG).show();
