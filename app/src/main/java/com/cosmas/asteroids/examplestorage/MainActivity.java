@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
     EditText eName, eSection;
 
@@ -35,5 +39,21 @@ public class MainActivity extends AppCompatActivity {
         writer.commit();
 
         Toast.makeText(this,"Data saved...",Toast.LENGTH_LONG).show();
+    }
+
+    public void saveInternal(View v) throws IOException {
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput("data2.txt", MODE_PRIVATE);
+            String name2 = eName.getText().toString();
+            fos.write(name2.getBytes());
+            Toast.makeText(this,"Data saved...",Toast.LENGTH_LONG).show();
+        } catch(FileNotFoundException e){
+            Toast.makeText(this,"error writing data...",Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            fos.close();
+        }
     }
 }
